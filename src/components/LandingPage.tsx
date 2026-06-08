@@ -27,11 +27,8 @@ import { Wordmark } from './Wordmark';
 import { PLAN_CATALOG_LIST, TRIAL_DAYS } from '../lib/plans';
 import { PlanComparisonTable } from './plans/PlanComparisonTable';
 
-interface LandingPageProps {
-  onStart: () => void;
-  onEnterApp: () => void;
-  onSelectPlan?: (planSlug: 'starter' | 'pro' | 'studio') => void;
-}
+const APP_REGISTER_URL = 'https://app.axxosfit.com.br/register';
+const APP_LOGIN_URL = 'https://app.axxosfit.com.br/login';
 
 function FigmaBackground() {
   return (
@@ -53,7 +50,7 @@ function FigmaBackground() {
   );
 }
 
-export default function LandingPage({ onStart, onEnterApp, onSelectPlan }: LandingPageProps) {
+export default function LandingPage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const benefits = [
@@ -133,9 +130,11 @@ export default function LandingPage({ onStart, onEnterApp, onSelectPlan }: Landi
               </a>
             </nav>
             <div className="flex items-center gap-2 sm:gap-3">
-              <Button variant="outline" size="sm" onClick={onEnterApp}>
-                Acessar Painel
-              </Button>
+              <a href={APP_LOGIN_URL}>
+                <Button variant="outline" size="sm">
+                  Acessar Painel
+                </Button>
+              </a>
             </div>
           </div>
         </header>
@@ -180,9 +179,11 @@ export default function LandingPage({ onStart, onEnterApp, onSelectPlan }: Landi
                 transition={{ delay: 0.15 }}
                 className="flex flex-col sm:flex-row items-center justify-center gap-3"
               >
-                <Button size="lg" onClick={onStart} iconRight={<ArrowRight className="w-5 h-5" />} className="w-full sm:w-auto">
-                  Começar agora — 14 dias grátis
-                </Button>
+                <a href={APP_REGISTER_URL}>
+                  <Button size="lg" iconRight={<ArrowRight className="w-5 h-5" />} className="w-full sm:w-auto">
+                    Começar agora — 14 dias grátis
+                  </Button>
+                </a>
               </motion.div>
 
               <motion.div
@@ -339,14 +340,15 @@ export default function LandingPage({ onStart, onEnterApp, onSelectPlan }: Landi
                       </li>
                     ))}
                   </ul>
-                  <Button
-                    variant={p.popular ? 'primary' : 'outline'}
-                    fullWidth
-                    onClick={() => (onSelectPlan ? onSelectPlan(p.slug) : onStart())}
-                    className={p.popular ? 'bg-gradient-to-r from-primary to-accent border-0' : ''}
-                  >
-                    {p.cta}
-                  </Button>
+                  <a href={APP_REGISTER_URL} className="block">
+                    <Button
+                      variant={p.popular ? 'primary' : 'outline'}
+                      fullWidth
+                      className={p.popular ? 'bg-gradient-to-r from-primary to-accent border-0' : ''}
+                    >
+                      {p.cta}
+                    </Button>
+                  </a>
                 </GlassCard>
               ))}
             </div>
@@ -407,9 +409,11 @@ export default function LandingPage({ onStart, onEnterApp, onSelectPlan }: Landi
                   Falar no WhatsApp
                 </Button>
               </a>
-              <Button size="lg" onClick={onStart} iconRight={<ArrowRight className="w-4 h-4" />}>
-                Criar conta grátis
-              </Button>
+              <a href={APP_REGISTER_URL}>
+                <Button size="lg" iconRight={<ArrowRight className="w-4 h-4" />}>
+                  Criar conta grátis
+                </Button>
+              </a>
             </div>
           </div>
         </section>

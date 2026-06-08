@@ -1,8 +1,0 @@
-{
-  "name": "AxxosFit",
-  "description": "Plataforma SaaS premium para personal trainers e alunos com sugestão de treino por inteligência artificial (Gemini) e acompanhamento detalhado de evolução em tempo real.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}

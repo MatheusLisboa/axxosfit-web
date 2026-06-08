@@ -3,12 +3,6 @@
   "installCommand": "npm install",
   "framework": null,
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ],
-  "functions": {
-    "api/**/*.ts": {
-      "maxDuration": 30,
-      "includeFiles": "lib/**"
-    }
-  }
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

@@ -1,6 +1,6 @@
-# AxxosFit
+# AxxosFit Landing
 
-Plataforma SaaS para personal trainers e alunos.
+Landing page estática do AxxosFit — pronta para deploy em repositório separado.
 
 ## Desenvolvimento
 
@@ -13,5 +13,10 @@ npm run dev
 
 ```bash
 npm run build
-npm start
+npm run preview
 ```
+
+## Links do app
+
+- Cadastro: https://app.axxosfit.com.br/register
+- Login: https://app.axxosfit.com.br/login
