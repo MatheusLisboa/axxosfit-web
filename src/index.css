@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@source "./**/*.{js,ts,jsx,tsx}";
+@import "tw-animate-css";
+@import "./figma/styles/theme.css";
+@import "./figma/styles/globals.css";
