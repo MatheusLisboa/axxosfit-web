@@ -1,0 +1,57 @@
+# AXOSFIT - WORKOUT ARCHITECTURE
+
+Nunca existir apenas 1 treino ativo por aluno.
+
+Modelo correto:
+
+Student
+ └── Workout Plan
+      ├── Treino A
+      ├── Treino B
+      ├── Treino C
+      └── ...
+
+Cada treino possui:
+- nome (A, B, C, D...)
+- descrição
+- dias_da_semana[]
+- ordem
+
+Cada exercício dentro do treino deve possuir parâmetros próprios:
+
+WorkoutExercise
+- exercise_id
+- sets
+- reps
+- load
+- rest_seconds
+- observation
+- order_index
+
+NUNCA usar dados do exercício base para carga, séries ou descanso.
+
+Exercício base = biblioteca.
+WorkoutExercise = configuração daquele treino específico.
+
+Ao desativar um treino:
+- desativar apenas aquele treino
+- nunca desativar outros treinos do aluno
+
+Um aluno pode ter vários treinos ativos simultaneamente.
+
+Exemplo:
+Treino A → Segunda e Quinta
+Treino B → Terça e Sexta
+Treino C → Quarta
+
+A UI deve permitir:
+- criar vários treinos para o mesmo aluno
+- definir dias da semana
+- ordenar exercícios
+- informar séries
+- repetições
+- carga
+- descanso
+- observações
+
+Sempre reutilizar a estrutura existente antes de criar novas tabelas.

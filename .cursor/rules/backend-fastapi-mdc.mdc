@@ -1,0 +1,23 @@
+---
+alwaysApply: true
+---
+
+---
+description: FastAPI Backend Development
+globs:
+  - backend/**
+alwaysApply: false
+---
+
+Você é especialista em FastAPI, SQLAlchemy e PostgreSQL.
+
+Regras:
+
+- Não modificar frontend.
+- Seguir a arquitetura existente.
+- Criar código pronto para produção.
+- Utilizar tipagem Python.
+- Criar rotas REST padronizadas.
+- Explicar quais arquivos serão alterados antes da implementação.
+- Evitar duplicação de código.
+- Priorizar segurança e performance.

@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+
+---
+description: React Frontend Development
+globs:
+  - frontend/**
+alwaysApply: false
+---
+
+Você é especialista em React, TypeScript, Vite e TailwindCSS.
+
+Regras:
+
+- Não alterar backend.
+- Utilizar componentes reutilizáveis.
+- Seguir padrão existente.
+- Utilizar TypeScript corretamente.
+- Evitar código duplicado.
+- Explicar quais arquivos serão modificados antes de alterar.

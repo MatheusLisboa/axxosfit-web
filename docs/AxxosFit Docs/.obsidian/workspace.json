@@ -1,0 +1,528 @@
+{
+  "main": {
+    "id": "82e330413cee7e01",
+    "type": "split",
+    "children": [
+      {
+        "id": "96d0c4ebf9a28940",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c7310d89f51f4dbc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01 - Produto.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "01 - Produto"
+            }
+          },
+          {
+            "id": "1a63c5b4ad9544cd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02 - Banco.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "02 - Banco"
+            }
+          },
+          {
+            "id": "992e4425adc737dc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03 - Backend.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "03 - Backend"
+            }
+          },
+          {
+            "id": "e69a675e44ca7a38",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "04 - Frontend.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "04 - Frontend"
+            }
+          },
+          {
+            "id": "c97a8d35a27f5c1e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "05 - Pagamentos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "05 - Pagamentos"
+            }
+          },
+          {
+            "id": "6f90df26ea54f5c3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "06 - IA.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "06 - IA"
+            }
+          },
+          {
+            "id": "4c1d502bf504c4bb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "07 - UX UI.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "07 - UX UI"
+            }
+          },
+          {
+            "id": "bd5ddcc1ec4aa54b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "08 - Roadmap.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "08 - Roadmap"
+            }
+          },
+          {
+            "id": "55a0796b025bc35b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Bugs.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "09 - Bugs"
+            }
+          },
+          {
+            "id": "22a7a949c97b3d55",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AI_CONTEXT.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "AI_CONTEXT"
+            }
+          },
+          {
+            "id": "7b2acf7469ee5319",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Profiles.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Profiles"
+            }
+          },
+          {
+            "id": "18603887f64d6390",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Trainers.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Trainers"
+            }
+          },
+          {
+            "id": "d286120cff3cfaa8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Students.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Students"
+            }
+          },
+          {
+            "id": "115bba3a972b4c75",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Workouts.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Workouts"
+            }
+          },
+          {
+            "id": "7852c07c542c1c15",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Exercises.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Exercises"
+            }
+          },
+          {
+            "id": "1d0d27501c307425",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Subscriptions.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Subscriptions"
+            }
+          },
+          {
+            "id": "08a52d4292afbf90",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Banco/Exercises.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Exercises"
+            }
+          },
+          {
+            "id": "8c63565eae40bdee",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Regras/Trial.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Trial"
+            }
+          },
+          {
+            "id": "7db507c121a5b788",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Regras/Planos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Planos"
+            }
+          },
+          {
+            "id": "0e0d4fee31416ba4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Regras/Treinos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Treinos"
+            }
+          },
+          {
+            "id": "6a2dd308cd25777d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02 - Banco.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "02 - Banco"
+            }
+          },
+          {
+            "id": "d2f649b328768fa3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DATABASE.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "DATABASE"
+            }
+          }
+        ],
+        "currentTab": 21
+      },
+      {
+        "id": "0f0fd30238bfe256",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4a2fe53a0cb5dfd5",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "040a94626f49cebf",
+    "type": "split",
+    "children": [
+      {
+        "id": "41b9fe3543862a8a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1b9309ff6929d155",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "af1940e16a154d3c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "cb7d76c0a622335f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "e2b1f200235db1df",
+    "type": "split",
+    "children": [
+      {
+        "id": "0abdca4ad2911582",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4b1da2fe3e68dd21",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "DATABASE.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos para DATABASE"
+            }
+          },
+          {
+            "id": "eceb63ada3a16f19",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "DATABASE.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída para DATABASE"
+            }
+          },
+          {
+            "id": "985ce0412872e7d4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "f70022ce98c735d0",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "07aaacbbf975f7d4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "DATABASE.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário de DATABASE"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "d2f649b328768fa3",
+  "lastOpenFiles": [
+    "00 - Contexto.md",
+    "DATABASE.md",
+    "ROADMAP.md",
+    "Regras/Untitled",
+    "BUSINESS_RULES.md",
+    "02 - Banco.md",
+    "Regras/Avaliacoes.md",
+    "Regras/Treinos.md",
+    "Regras/Planos.md",
+    "Regras/Trial.md",
+    "Banco/Exercises.md",
+    "Regras",
+    "Banco/Payments.md",
+    "Banco/Subscriptions.md",
+    "Banco/Workouts.md",
+    "Banco/Students.md",
+    "Banco/Trainers.md",
+    "Banco/Profiles.md",
+    "AI_CONTEXT.md",
+    "Banco",
+    "09 - Bugs.md",
+    "08 - Roadmap.md",
+    "07 - UX UI.md",
+    "06 - IA.md",
+    "05 - Pagamentos.md",
+    "04 - Frontend.md",
+    "03 - Backend.md",
+    "01 - Produto.md"
+  ]
+}

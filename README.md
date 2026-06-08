@@ -1,6 +1,8 @@
-# AxxosFit Landing
+# AxxosFit App
 
-Landing page estática do AxxosFit — pronta para deploy em repositório separado.
+Aplicação web do AxxosFit — login, cadastro, painel do personal e app do aluno.
+
+A landing page está em repositório separado e aponta para `app.axxosfit.com.br`.
 
 ## Desenvolvimento
 
@@ -13,14 +15,11 @@ npm run dev
 
 ```bash
 npm run build
-npm run preview
+npm start
 ```
 
-## Deploy
+## Rotas principais
 
-Compatível com Vercel, Netlify ou qualquer host de SPA estática. O `vercel.json` já inclui rewrite para `index.html`.
-
-## Links do app
-
-- Cadastro: https://app.axxosfit.com.br/register
-- Login: https://app.axxosfit.com.br/login
+- `/` e `/login` — tela de login
+- `/register` — cadastro de personal
+- `/checkout` — fluxo de pagamento

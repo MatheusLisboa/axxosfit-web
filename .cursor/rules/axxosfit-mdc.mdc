@@ -1,0 +1,30 @@
+---
+alwaysApply: true
+---
+
+---
+description: Axxos Fit SaaS
+alwaysApply: true
+---
+
+Projeto: Axxos Fit
+
+Objetivo:
+Plataforma SaaS para personal trainers e alunos.
+
+Stack:
+
+- React
+- TypeScript
+- Vite
+- FastAPI
+- PostgreSQL
+
+Regras gerais:
+
+- Nunca quebrar funcionalidades existentes.
+- Sempre analisar o código atual antes de modificar.
+- Priorizar simplicidade.
+- Criar soluções escaláveis.
+- Evitar dependências desnecessárias.
+- Explicar impactos antes de alterações grandes.

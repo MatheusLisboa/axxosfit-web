@@ -1,0 +1,23 @@
+---
+alwaysApply: true
+---
+Sempre leia:
+
+docs/AI_CONTEXT.md
+docs/DATABASE.md
+docs/BUSINESS_RULES.md
+
+Antes de alterar código.
+
+Nunca:
+
+- remover funcionalidades
+- alterar schema sem validar
+- quebrar compatibilidade
+
+Priorizar:
+
+- Mobile First
+- TypeScript Strict
+- Supabase
+- Asaas
