@@ -13,18 +13,7 @@ export function isLoginEntryPath(pathname: string): boolean {
   return pathname === '/login' || pathname === '/auth' || pathname === '/signin';
 }
 
-export function isRegisterEntryPath(pathname: string): boolean {
-  return pathname === '/register';
-}
-
-export function resolveAuthInitialView(pathname: string): 'login' | 'register' {
-  if (isRegisterEntryPath(pathname)) return 'register';
-  return 'login';
-}
-
-/** Normaliza a URL de autenticação (PWA abre em /login). */
-export function syncAuthPath(pathname: string): void {
-  if (!isPwaStandalone()) return;
-  if (pathname === '/register' || isLoginEntryPath(pathname)) return;
-  window.history.replaceState({}, '', '/login');
+/** PWA ou URL de login → abrir direto na tela de autenticação. */
+export function shouldStartOnLogin(pathname = typeof window !== 'undefined' ? window.location.pathname : '/'): boolean {
+  return isPwaStandalone() || isLoginEntryPath(pathname);
 }

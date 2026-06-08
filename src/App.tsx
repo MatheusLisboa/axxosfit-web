@@ -9,6 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
 import { StoreProvider, useStore } from './services/store';
+import LandingPage from './components/LandingPage';
 import PasswordResetScreen from './components/PasswordResetScreen';
 import RecoverPasswordScreen from './components/RecoverPasswordScreen';
 import CheckoutPage from './components/CheckoutPage';
@@ -19,13 +20,14 @@ import { StudentFigmaApp } from './figma/StudentFigmaApp';
 import { FigmaAuthBridge } from './figma/FigmaAuthBridge';
 import { isSuperAdminProfile } from './lib/superadmin';
 import type { RegisterTrainerInput } from './types';
-import { resolveAuthInitialView, syncAuthPath } from './lib/pwa';
+import { isPwaStandalone, shouldStartOnLogin } from './lib/pwa';
 
-function resolveInitialScreen(): 'auth' | 'checkout' {
-  if (typeof window === 'undefined') return 'auth';
+function resolveInitialScreen(): 'landing' | 'auth' | 'checkout' {
+  if (typeof window === 'undefined') return 'landing';
   const path = window.location.pathname;
   if (path === '/checkout') return 'checkout';
-  return 'auth';
+  if (shouldStartOnLogin(path)) return 'auth';
+  return 'landing';
 }
 
 function MainAppRouter() {
@@ -40,23 +42,24 @@ function MainAppRouter() {
     clearPendingUpgrade,
     passwordRecoveryPending,
   } = useStore();
-  const [screen, setScreen] = useState<'auth' | 'checkout'>(resolveInitialScreen);
-  const [authInitialView, setAuthInitialView] = useState<'login' | 'register'>(() =>
-    typeof window !== 'undefined' ? resolveAuthInitialView(window.location.pathname) : 'login'
-  );
+  const [screen, setScreen] = useState<'landing' | 'auth' | 'checkout'>(resolveInitialScreen);
+  const [authInitialView, setAuthInitialView] = useState<'login' | 'register'>('login');
+  const isPwa = isPwaStandalone();
   const [chosenPlan, setChosenPlan] = useState<'starter' | 'pro' | 'studio'>('starter');
 
   useEffect(() => {
     try {
       const path = window.location.pathname;
+      if (shouldStartOnLogin(path)) {
+        setAuthInitialView('login');
+        setScreen('auth');
+        if (isPwaStandalone() && path !== '/login') {
+          window.history.replaceState({}, '', '/login');
+        }
+      }
       if (path === '/checkout') {
         setScreen('checkout');
-        return;
       }
-
-      setScreen('auth');
-      setAuthInitialView(resolveAuthInitialView(path));
-      syncAuthPath(path);
       const upgrade = sessionStorage.getItem('axosfit_upgrade_plan');
       if (upgrade === 'starter' || upgrade === 'pro' || upgrade === 'studio') {
         setChosenPlan(upgrade);
@@ -118,12 +121,6 @@ function MainAppRouter() {
     })();
   }, [currentProfile]);
 
-  const goToAuth = (view: 'login' | 'register' = 'login') => {
-    setAuthInitialView(view);
-    setScreen('auth');
-    window.history.replaceState({}, '', view === 'register' ? '/register' : '/login');
-  };
-
   if (passwordRecoveryPending) {
     return (
       <>
@@ -182,7 +179,7 @@ function MainAppRouter() {
     return (
       <CheckoutPage
         initialPlanSlug={chosenPlan}
-        onBack={() => goToAuth('login')}
+        onBackToLanding={() => setScreen('landing')}
         onPaymentSuccess={() => {
           window.dispatchEvent(new Event('axosfit:subscription-refresh'));
         }}
@@ -190,41 +187,61 @@ function MainAppRouter() {
     );
   }
 
+  if (screen === 'auth') {
+    return (
+      <>
+        <Toaster theme="dark" position="top-right" />
+        <FigmaAuthBridge
+          onBack={isPwa ? undefined : () => setScreen('landing')}
+          initialView={authInitialView}
+          onRegisterSuccess={async (data: RegisterTrainerInput) => {
+            const result = await registerUser(data);
+            if (!result.success) {
+              throw new Error(result.message || 'Não foi possível criar a conta.');
+            }
+            const loggedIn = await login(data.email, data.password);
+            if (!loggedIn) {
+              throw new Error(
+                'Conta criada. Confirme o e-mail no Supabase (se exigido) e faça login.'
+              );
+            }
+          }}
+          onLoginSuccess={async ({ email, password }) => {
+            const success = await login(email, password);
+            if (!success) {
+              const msg =
+                localStorage.getItem('axosfit_error') ||
+                storeError ||
+                'Credenciais inválidas. Verifique e-mail e senha.';
+              throw new Error(msg);
+            }
+          }}
+          onForgotPassword={async (email) => {
+            const result = await requestPasswordReset(email);
+            if (!result.success) {
+              throw new Error(result.message || 'Não foi possível enviar o e-mail de recuperação.');
+            }
+          }}
+        />
+      </>
+    );
+  }
+
   return (
-    <>
-      <Toaster theme="dark" position="top-right" />
-      <FigmaAuthBridge
-        initialView={authInitialView}
-        onRegisterSuccess={async (data: RegisterTrainerInput) => {
-          const result = await registerUser(data);
-          if (!result.success) {
-            throw new Error(result.message || 'Não foi possível criar a conta.');
-          }
-          const loggedIn = await login(data.email, data.password);
-          if (!loggedIn) {
-            throw new Error(
-              'Conta criada. Confirme o e-mail no Supabase (se exigido) e faça login.'
-            );
-          }
-        }}
-        onLoginSuccess={async ({ email, password }) => {
-          const success = await login(email, password);
-          if (!success) {
-            const msg =
-              localStorage.getItem('axosfit_error') ||
-              storeError ||
-              'Credenciais inválidas. Verifique e-mail e senha.';
-            throw new Error(msg);
-          }
-        }}
-        onForgotPassword={async (email) => {
-          const result = await requestPasswordReset(email);
-          if (!result.success) {
-            throw new Error(result.message || 'Não foi possível enviar o e-mail de recuperação.');
-          }
-        }}
-      />
-    </>
+    <LandingPage
+      onStart={() => {
+        setAuthInitialView('register');
+        setScreen('auth');
+      }}
+      onSelectPlan={() => {
+        setAuthInitialView('register');
+        setScreen('auth');
+      }}
+      onEnterApp={() => {
+        setAuthInitialView('login');
+        setScreen('auth');
+      }}
+    />
   );
 }
 
