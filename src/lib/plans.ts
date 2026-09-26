@@ -1,29 +1,33 @@
 /**
  * Regras de planos — docs/AxxosFit Docs/Regras/Planos.md
- * Trial: 14 dias grátis. Limites: Starter 10, Pro 25, Studio ilimitado.
+ * Trial: 7 dias grátis. Starter 5 · Pro 10 · Studio 100 + R$ 1,99/extra.
  * Alunos não pagam — apenas o personal.
  */
 
-export const TRIAL_DAYS = 14;
+export const TRIAL_DAYS = 7;
 
-/** Valor sentinela para planos com alunos ilimitados (Studio). */
+/** Valor sentinela para planos realmente ilimitados (parceiro / superadmin). */
 export const UNLIMITED_STUDENTS = 999_999;
+
+export const STUDIO_INCLUDED_STUDENTS = 100;
+export const STUDIO_OVERAGE_PRICE = 1.99;
 
 export type CanonicalPlanSlug = 'starter' | 'pro' | 'studio';
 
 export const PLAN_STUDENT_LIMITS: Record<string, number> = {
-  starter: 10,
-  bronze: 10,
-  pro: 25,
-  silver: 25,
-  studio: UNLIMITED_STUDENTS,
-  gold: UNLIMITED_STUDENTS,
+  starter: 5,
+  bronze: 5,
+  pro: 10,
+  silver: 10,
+  studio: STUDIO_INCLUDED_STUDENTS,
+  gold: STUDIO_INCLUDED_STUDENTS,
 };
 
 export function normalizePlanSlug(slug: string): CanonicalPlanSlug {
   const s = slug.toLowerCase();
   if (s === 'bronze' || s === 'starter') return 'starter';
   if (s === 'silver' || s === 'pro') return 'pro';
+  if (s === 'teste' || s === 'parceiro' || s === 'gold' || s === 'studio') return 'studio';
   return 'studio';
 }
 
@@ -39,8 +43,18 @@ export function formatStudentLimit(max: number): string {
   return isUnlimitedStudents(max) ? 'Ilimitado' : String(max);
 }
 
-export function canAddStudent(maxStudents: number, currentActiveCount: number): boolean {
+export function planAllowsOverage(slug?: string | null): boolean {
+  if (!slug) return false;
+  return normalizePlanSlug(slug) === 'studio';
+}
+
+export function canAddStudent(
+  maxStudents: number,
+  currentActiveCount: number,
+  slug?: string | null,
+): boolean {
   if (isUnlimitedStudents(maxStudents)) return true;
+  if (planAllowsOverage(slug)) return true;
   return currentActiveCount < maxStudents;
 }
 
@@ -53,15 +67,15 @@ export function studentLimitMessage(maxStudents: number, planName?: string): str
 }
 
 export const PLAN_STUDENT_FEATURE_LABEL: Record<CanonicalPlanSlug, string> = {
-  starter: 'Até 10 alunos ativos',
-  pro: 'Até 25 alunos ativos',
-  studio: 'Alunos ilimitados',
+  starter: 'Até 5 alunos ativos',
+  pro: 'Até 10 alunos ativos',
+  studio: 'Até 100 inclusos · R$ 1,99/extra',
 };
 
 export const PLAN_PRICES: Record<CanonicalPlanSlug, number> = {
-  starter: 99.9,
-  pro: 149.9,
-  studio: 189.9,
+  starter: 29.9,
+  pro: 49.9,
+  studio: 99.9,
 };
 
 export const PLAN_DISPLAY_NAMES = {
@@ -96,7 +110,7 @@ export function getTrialDaysRemaining(expiresAt?: string | null): number | null 
 /** Features oficiais por plano (Planos.md). */
 export const PLAN_FEATURE_LISTS: Record<CanonicalPlanSlug, readonly string[]> = {
   starter: [
-    'Até 10 alunos ativos',
+    'Até 5 alunos ativos',
     'Editor de treinos',
     'App do aluno',
     'Evolução básica',
@@ -105,7 +119,7 @@ export const PLAN_FEATURE_LISTS: Record<CanonicalPlanSlug, readonly string[]> = 
   ],
   pro: [
     'Tudo do Starter',
-    'Até 25 alunos ativos',
+    'Até 10 alunos ativos',
     'Avaliação física completa',
     'PDF profissional',
     'Controle financeiro',
@@ -115,9 +129,11 @@ export const PLAN_FEATURE_LISTS: Record<CanonicalPlanSlug, readonly string[]> = 
   ],
   studio: [
     'Tudo do Pro',
-    'Alunos ilimitados',
+    'Até 100 alunos inclusos',
+    `R$ ${formatPlanPrice(STUDIO_OVERAGE_PRICE)} por aluno extra`,
     'Suporte prioritário WhatsApp',
     'Relatórios avançados',
+    'IA Coach (Gemini)',
   ],
 };
 
@@ -138,7 +154,7 @@ export const PLAN_CATALOG: Record<CanonicalPlanSlug, PlanMarketingCard> = {
     slug: 'starter',
     name: 'Starter',
     subtitle: 'Para começar sua assessoria',
-    price: '99,90',
+    price: formatPlanPrice(PLAN_PRICES.starter),
     priceValue: PLAN_PRICES.starter,
     cta: 'Começar grátis',
     features: PLAN_FEATURE_LISTS.starter,
@@ -147,7 +163,7 @@ export const PLAN_CATALOG: Record<CanonicalPlanSlug, PlanMarketingCard> = {
     slug: 'pro',
     name: 'Pro',
     subtitle: 'Para escalar com profissionalismo',
-    price: '149,90',
+    price: formatPlanPrice(PLAN_PRICES.pro),
     priceValue: PLAN_PRICES.pro,
     cta: 'Escolher Pro',
     popular: true,
@@ -157,7 +173,7 @@ export const PLAN_CATALOG: Record<CanonicalPlanSlug, PlanMarketingCard> = {
     slug: 'studio',
     name: 'Studio',
     subtitle: 'Para assessorias em crescimento',
-    price: '189,90',
+    price: formatPlanPrice(PLAN_PRICES.studio),
     priceValue: PLAN_PRICES.studio,
     cta: 'Escolher Studio',
     premium: true,
@@ -181,7 +197,7 @@ export interface PlanComparisonRow {
 }
 
 export const PLAN_COMPARISON_ROWS: PlanComparisonRow[] = [
-  { label: 'Alunos ativos', starter: '10', pro: '25', studio: 'Ilimitados' },
+  { label: 'Alunos ativos', starter: '5', pro: '10', studio: '100 + R$ 1,99/extra' },
   { label: 'Editor de treinos', starter: true, pro: true, studio: true },
   { label: 'App do aluno', starter: true, pro: true, studio: true },
   { label: 'Evolução básica', starter: true, pro: true, studio: true },
@@ -194,6 +210,7 @@ export const PLAN_COMPARISON_ROWS: PlanComparisonRow[] = [
   { label: 'Gestão de evolução', starter: false, pro: true, studio: true, minPlan: 'pro' },
   { label: 'Suporte prioritário', starter: false, pro: true, studio: true, minPlan: 'pro' },
   { label: 'Suporte WhatsApp', starter: false, pro: false, studio: true, minPlan: 'studio' },
+  { label: 'IA Coach', starter: false, pro: false, studio: true, minPlan: 'studio' },
   { label: 'Relatórios avançados', starter: false, pro: false, studio: true, minPlan: 'studio' },
 ];
 

@@ -13,18 +13,31 @@ import {
   MessageCircle,
   ChevronRight,
   HelpCircle,
-  Zap,
   Shield,
   BarChart3,
   Check,
   ArrowRight,
-  Bot,
+  Sparkles,
+  Wallet,
+  Smartphone,
+  Trophy,
+  Timer,
+  Flame,
+  ClipboardList,
+  Bell,
 } from 'lucide-react';
 import { Button } from '../figma/components/ui/Button';
 import { Badge } from '../figma/components/ui/Badge';
 import { GlassCard } from '../figma/components/ui/GlassCard';
 import { Wordmark } from './Wordmark';
-import { PLAN_CATALOG_LIST, TRIAL_DAYS } from '../lib/plans';
+import {
+  PLAN_CATALOG_LIST,
+  PLAN_PRICES,
+  STUDIO_INCLUDED_STUDENTS,
+  STUDIO_OVERAGE_PRICE,
+  TRIAL_DAYS,
+  formatPlanPrice,
+} from '../lib/plans';
 import { PlanComparisonTable } from './plans/PlanComparisonTable';
 
 const APP_REGISTER_URL = 'https://app.axxosfit.com.br/register';
@@ -34,7 +47,7 @@ function FigmaBackground() {
   return (
     <>
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a14] via-[#07070e] to-[#0a0a14]" />
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-3xl" />
       </div>
@@ -58,26 +71,50 @@ export default function LandingPage() {
       icon: Users,
       color: 'from-indigo-500 to-violet-600',
       title: 'Gestão Descomplicada',
-      desc: 'Acompanhe dezenas de alunos ativos e inativos com prontuários esportivos, histórico de lesões e evolução em um painel único.',
+      desc: 'Cadastre alunos, convide por WhatsApp ou e-mail e envie formulários prontos — PAR-Q, anamnese, lesões e restrições — num painel único.',
     },
     {
       icon: Dumbbell,
       color: 'from-violet-500 to-purple-600',
       title: 'Montador de Treino Rápido',
-      desc: 'Prescreva rotinas complexas em minutos. Divisão A/B/C automática, histórico de cargas integradas e biblioteca customizada.',
+      desc: 'Monte fichas A/B/C, full body, superior/inferior ou PPL, com biblioteca de exercícios e vídeo. Duplique um treino para vários alunos de uma vez.',
+    },
+    {
+      icon: Sparkles,
+      color: 'from-fuchsia-500 to-pink-600',
+      title: 'IA Coach',
+      plan: 'Studio',
+      desc: 'Escolha o aluno e gere a ficha com IA usando a sua biblioteca de exercícios. Revise, ajuste e publique direto no app dele.',
     },
     {
       icon: TrendingUp,
       color: 'from-emerald-500 to-teal-600',
-      title: 'Metodologia de Retenção',
-      desc: 'Gráficos antropométricos, percentuais de gordura e score de aderência inteligente para reter seus alunos por mais tempo.',
+      title: 'Evolução que retém',
+      plan: 'Pro',
+      desc: 'Avaliação física completa com % de gordura, perímetros e fotos, gráficos de evolução e PDF profissional para entregar ao aluno.',
     },
     {
-      icon: Activity,
+      icon: Wallet,
       color: 'from-amber-500 to-orange-600',
-      title: 'App do aluno incluso',
-      desc: 'Seus alunos acessam treinos, evolução e perfil sem pagar nada — apenas você assina o plano.',
+      title: 'Financeiro em dia',
+      plan: 'Pro',
+      desc: 'Acompanhe mensalidades, inadimplentes, próximos vencimentos e a previsão do mês. Exporte o relatório em PDF.',
     },
+    {
+      icon: Smartphone,
+      color: 'from-sky-500 to-indigo-600',
+      title: 'App do aluno incluso',
+      desc: 'Seus alunos treinam, registram cargas e acompanham a evolução pelo celular sem pagar nada — apenas você assina o plano.',
+    },
+  ];
+
+  const studentAppFeatures = [
+    { icon: Timer, text: 'Timer de descanso entre as séries' },
+    { icon: Dumbbell, text: 'Carga registrada por série' },
+    { icon: Flame, text: 'Sequência de treinos (streak)' },
+    { icon: Trophy, text: 'Ranking da turma e medalhas' },
+    { icon: ClipboardList, text: 'Formulários enviados pelo personal' },
+    { icon: Bell, text: 'Lembretes e instalação na tela inicial' },
   ];
 
   const plans = PLAN_CATALOG_LIST.map((p) => ({
@@ -88,25 +125,33 @@ export default function LandingPage() {
   const faqs = [
     {
       q: 'O AxxosFit necessita de instalação local?',
-      a: 'Não. O AxxosFit é um SaaS 100% web e na nuvem. Você e seus alunos acessam instantaneamente por qualquer telefone, tablet ou computador.',
+      a: 'Não. O AxxosFit é um SaaS 100% web e na nuvem. Você e seus alunos acessam por qualquer telefone, tablet ou computador — e ainda podem instalar o app na tela inicial do celular.',
     },
     {
       q: 'Meus alunos pagam para acessar?',
-      a: 'Não. O app do aluno é gratuito para todos os convidados por um personal cadastrado. Apenas o personal assina um plano.',
+      a: 'Não. O app do aluno é gratuito. O personal cadastra e convida o aluno (por WhatsApp ou e-mail) e apenas o personal assina um plano.',
     },
     {
-      q: 'Como funciona o trial de 14 dias?',
-      a: 'Todo personal começa no Starter com 14 dias grátis. Você pode testar editor de treinos, app do aluno e evolução básica antes de escolher Pro ou Studio.',
+      q: `Como funciona o trial de ${TRIAL_DAYS} dias?`,
+      a: `Todo personal começa no Starter com ${TRIAL_DAYS} dias grátis, sem precisar de cartão. Você testa o editor de treinos, o app do aluno e a evolução básica. Terminado o período, o cadastro de alunos, treinos e avaliações fica bloqueado até você assinar um plano.`,
     },
     {
-      q: 'Qual a diferença entre Pro e Studio?',
-      a: 'O Pro inclui até 25 alunos, avaliação física completa, PDF profissional, controle financeiro e suporte prioritário. O Studio adiciona alunos ilimitados, suporte WhatsApp e relatórios avançados.',
+      q: 'Qual a diferença entre Starter, Pro e Studio?',
+      a: `O Starter (R$ ${formatPlanPrice(PLAN_PRICES.starter)}/mês) atende até 5 alunos ativos. O Pro (R$ ${formatPlanPrice(PLAN_PRICES.pro)}/mês) sobe para 10 alunos e libera avaliação física completa, PDF profissional, controle financeiro, anamnese avançada e suporte prioritário. O Studio (R$ ${formatPlanPrice(PLAN_PRICES.studio)}/mês) inclui até ${STUDIO_INCLUDED_STUDENTS} alunos, IA Coach, relatórios avançados e suporte prioritário por WhatsApp.`,
+    },
+    {
+      q: 'O que acontece se eu passar do limite de alunos?',
+      a: `No Starter e no Pro você faz upgrade para cadastrar mais alunos. No Studio o cadastro não é bloqueado acima de ${STUDIO_INCLUDED_STUDENTS}: cada aluno extra soma R$ ${formatPlanPrice(STUDIO_OVERAGE_PRICE)}/mês à sua fatura.`,
+    },
+    {
+      q: 'O que é o IA Coach?',
+      a: 'É um assistente que gera a ficha de treino do aluno (ABC, full body, superior/inferior ou PPL) a partir da sua biblioteca de exercícios. Você revisa e publica direto no app do aluno. Disponível no plano Studio.',
     },
   ];
 
   const previewStats = [
-    { label: 'Receita Mensal', value: 'R$ 9.200', change: '+14%', icon: Activity, color: 'from-indigo-500 to-violet-600' },
-    { label: 'Alunos Ativos', value: '24', change: '+3', icon: Users, color: 'from-violet-500 to-purple-600' },
+    { label: 'Faturamento do mês', value: 'R$ 9.200', change: '+14%', icon: Activity, color: 'from-indigo-500 to-violet-600' },
+    { label: 'Alunos ativos', value: '24', change: '+3', icon: Users, color: 'from-violet-500 to-purple-600' },
     { label: 'Retenção', value: '87%', change: '+2%', icon: TrendingUp, color: 'from-emerald-500 to-teal-600' },
   ];
 
@@ -148,7 +193,7 @@ export default function LandingPage() {
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 border border-primary/30 mb-6"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-xs text-primary font-medium">Plataforma #1 para Fitness Profissionais</span>
+                <span className="text-xs text-primary font-medium">Feito para personal trainers</span>
               </motion.div>
 
               <motion.h1
@@ -169,8 +214,8 @@ export default function LandingPage() {
                 transition={{ delay: 0.1 }}
                 className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-10 leading-relaxed"
               >
-                Gerencie alunos, crie treinos personalizados e acompanhe resultados com tecnologia de ponta — o mesmo
-                visual e experiência do seu painel profissional.
+                Gerencie alunos, monte treinos (ou gere com IA), acompanhe a evolução e as mensalidades — com app do
+                aluno incluso, sem custo para quem treina.
               </motion.p>
 
               <motion.div
@@ -181,7 +226,7 @@ export default function LandingPage() {
               >
                 <a href={APP_REGISTER_URL}>
                   <Button size="lg" iconRight={<ArrowRight className="w-5 h-5" />} className="w-full sm:w-auto">
-                    Começar agora — 14 dias grátis
+                    Começar agora — {TRIAL_DAYS} dias grátis
                   </Button>
                 </a>
               </motion.div>
@@ -190,18 +235,14 @@ export default function LandingPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.25 }}
-                className="flex items-center justify-center gap-4 mt-10"
+                className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-10 text-sm text-muted-foreground"
               >
-                {['Tiago M.', 'Juliana R.', 'Carlos S.', 'Ana P.'].map((name, i) => (
-                  <div
-                    key={name}
-                    className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-bold text-white border-2 border-background -ml-2 first:ml-0"
-                    style={{ zIndex: 4 - i }}
-                  >
-                    {name[0]}
-                  </div>
+                {['Sem cartão de crédito', 'App do aluno grátis', 'Funciona no celular'].map((text) => (
+                  <span key={text} className="inline-flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-400" />
+                    {text}
+                  </span>
                 ))}
-                <span className="text-sm text-muted-foreground">+2.4k trainers ativos</span>
               </motion.div>
             </div>
           </div>
@@ -223,7 +264,7 @@ export default function LandingPage() {
             />
             <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <p className="text-white/70 text-sm mb-1">Preview do dashboard</p>
+                <p className="text-white/70 text-sm mb-1">Preview do dashboard · dados ilustrativos</p>
                 <h2 className="text-xl sm:text-2xl font-bold">Tudo que você precisa em um só lugar</h2>
               </div>
               <Badge variant="primary" className="bg-white/15 border-white/20 text-white">
@@ -270,11 +311,14 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {benefits.map(({ icon: Icon, color, title, desc }, i) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {benefits.map(({ icon: Icon, color, title, desc, plan }) => (
                 <GlassCard key={title} hover className="p-6">
-                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-5 shadow-lg`}>
-                    <Icon className="w-5 h-5 text-white" />
+                  <div className="flex items-start justify-between mb-5">
+                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg`}>
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    {plan && <Badge variant="primary">{plan}</Badge>}
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
@@ -284,8 +328,8 @@ export default function LandingPage() {
 
             <div className="mt-10 grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
               {[
-                { icon: BarChart3, text: 'Dashboard com analytics em tempo real' },
-                { icon: Shield, text: 'Suporte via e-mail no Starter; prioritário no Pro' },
+                { icon: BarChart3, text: 'Dashboard com faturamento, retenção e pendências' },
+                { icon: MessageCircle, text: 'Suporte por e-mail; prioritário no Pro e por WhatsApp no Studio' },
                 { icon: Shield, text: 'Segurança e privacidade dos seus dados' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border">
@@ -299,12 +343,39 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section id="app-do-aluno" className="py-20 border-t border-border">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <Badge variant="accent" className="mb-4">
+                Grátis para o aluno
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+                Um app que seu aluno vai querer abrir
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Treino do dia, descanso cronometrado e cargas registradas a cada série. O aluno vê a própria evolução e
+                você acompanha tudo pelo painel — sem mensagem solta no WhatsApp.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {studentAppFeatures.map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border">
+                  <div className="w-9 h-9 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                    <Icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground">{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="planos" className="py-20 border-t border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-14">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Planos para cada fase da sua assessoria</h2>
               <p className="text-muted-foreground">
-                {TRIAL_DAYS} dias grátis no Starter. Alunos não pagam — apenas você assina.
+                {TRIAL_DAYS} dias grátis, sem cartão. Alunos não pagam — apenas você assina.
               </p>
             </div>
 
@@ -411,7 +482,7 @@ export default function LandingPage() {
               </a>
               <a href={APP_REGISTER_URL}>
                 <Button size="lg" iconRight={<ArrowRight className="w-4 h-4" />}>
-                  Criar conta grátis
+                  Criar conta — {TRIAL_DAYS} dias grátis
                 </Button>
               </a>
             </div>
