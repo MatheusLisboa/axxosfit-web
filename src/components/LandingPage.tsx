@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Dumbbell,
   Users,
@@ -25,6 +25,9 @@ import {
   Flame,
   ClipboardList,
   Bell,
+  Menu,
+  X,
+  Mail,
 } from 'lucide-react';
 import { Button } from '../figma/components/ui/Button';
 import { Badge } from '../figma/components/ui/Badge';
@@ -42,6 +45,7 @@ import { PlanComparisonTable } from './plans/PlanComparisonTable';
 
 const APP_REGISTER_URL = 'https://app.axxosfit.com.br/register';
 const APP_LOGIN_URL = 'https://app.axxosfit.com.br/login';
+const CONTACT_EMAIL = 'contato@axxosfit.com.br';
 
 function FigmaBackground() {
   return (
@@ -65,6 +69,20 @@ function FigmaBackground() {
 
 export default function LandingPage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const navLinks = [
+    { href: '#beneficios', label: 'Benefícios' },
+    { href: '#planos', label: 'Planos' },
+    { href: '#faq', label: 'FAQ' },
+  ];
+
+  useEffect(() => {
+    document.body.style.overflow = mobileNavOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileNavOpen]);
 
   const benefits = [
     {
@@ -164,24 +182,59 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <Wordmark size="lg" className="max-w-[min(100%,280px)]" />
             <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-              <a href="#beneficios" className="hover:text-foreground transition-colors">
-                Benefícios
-              </a>
-              <a href="#planos" className="hover:text-foreground transition-colors">
-                Planos
-              </a>
-              <a href="#faq" className="hover:text-foreground transition-colors">
-                FAQ
-              </a>
+              {navLinks.map(({ href, label }) => (
+                <a key={href} href={href} className="hover:text-foreground transition-colors">
+                  {label}
+                </a>
+              ))}
             </nav>
             <div className="flex items-center gap-2 sm:gap-3">
-              <a href={APP_LOGIN_URL}>
+              <a href={APP_LOGIN_URL} className="hidden sm:block">
                 <Button variant="outline" size="sm">
                   Acessar Painel
                 </Button>
               </a>
+              <button
+                type="button"
+                onClick={() => setMobileNavOpen((v) => !v)}
+                className="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-lg border border-border text-foreground hover:bg-muted transition-colors"
+                aria-label={mobileNavOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-expanded={mobileNavOpen}
+              >
+                {mobileNavOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
             </div>
           </div>
+
+          <AnimatePresence>
+            {mobileNavOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl overflow-hidden"
+              >
+                <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-1 text-sm font-medium text-muted-foreground">
+                  {navLinks.map(({ href, label }) => (
+                    <a
+                      key={href}
+                      href={href}
+                      onClick={() => setMobileNavOpen(false)}
+                      className="px-2 py-2.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors"
+                    >
+                      {label}
+                    </a>
+                  ))}
+                  <a href={APP_LOGIN_URL} onClick={() => setMobileNavOpen(false)} className="mt-1">
+                    <Button variant="outline" size="sm" fullWidth>
+                      Acessar Painel
+                    </Button>
+                  </a>
+                </nav>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </header>
 
         <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">
@@ -225,7 +278,11 @@ export default function LandingPage() {
                 className="flex flex-col sm:flex-row items-center justify-center gap-3"
               >
                 <a href={APP_REGISTER_URL}>
-                  <Button size="lg" iconRight={<ArrowRight className="w-5 h-5" />} className="w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    iconRight={<ArrowRight className="w-5 h-5" />}
+                    className="w-full sm:w-auto bg-gradient-to-r from-primary to-accent border-0 hover:brightness-110"
+                  >
                     Começar agora — {TRIAL_DAYS} dias grátis
                   </Button>
                 </a>
@@ -299,7 +356,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="beneficios" className="py-20 border-t border-border">
+        <section id="beneficios" className="py-20 border-t border-border scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-14">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
@@ -312,17 +369,25 @@ export default function LandingPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {benefits.map(({ icon: Icon, color, title, desc, plan }) => (
-                <GlassCard key={title} hover className="p-6">
-                  <div className="flex items-start justify-between mb-5">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg`}>
-                      <Icon className="w-5 h-5 text-white" />
+              {benefits.map(({ icon: Icon, color, title, desc, plan }, i) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: (i % 3) * 0.08 }}
+                >
+                  <GlassCard hover className="p-6 h-full">
+                    <div className="flex items-start justify-between mb-5">
+                      <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shadow-lg`}>
+                        <Icon className="w-5 h-5 text-white" />
+                      </div>
+                      {plan && <Badge variant="primary">{plan}</Badge>}
                     </div>
-                    {plan && <Badge variant="primary">{plan}</Badge>}
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-                </GlassCard>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+                  </GlassCard>
+                </motion.div>
               ))}
             </div>
 
@@ -370,7 +435,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="planos" className="py-20 border-t border-border">
+        <section id="planos" className="py-20 border-t border-border scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-14">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Planos para cada fase da sua assessoria</h2>
@@ -425,12 +490,16 @@ export default function LandingPage() {
             </div>
 
             <div className="rounded-2xl border border-border bg-card/30 p-4 sm:p-6">
-              <PlanComparisonTable />
+              <p className="sm:hidden flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+                Deslize para o lado para comparar todos os planos
+                <ArrowRight className="w-3.5 h-3.5" />
+              </p>
+              <PlanComparisonTable highlightSlug="pro" />
             </div>
           </div>
         </section>
 
-        <section id="faq" className="py-20 border-t border-border">
+        <section id="faq" className="py-20 border-t border-border scroll-mt-20">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <div className="w-12 h-12 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center mx-auto mb-4">
@@ -453,11 +522,17 @@ export default function LandingPage() {
                       className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform ${activeFaq === i ? 'rotate-90 text-primary' : ''}`}
                     />
                   </button>
-                  {activeFaq === i && (
-                    <div className="px-5 pb-4 pt-0 text-sm text-muted-foreground leading-relaxed border-t border-border">
-                      {f.a}
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      activeFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="px-5 pb-4 pt-0 text-sm text-muted-foreground leading-relaxed border-t border-border">
+                        {f.a}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </GlassCard>
               ))}
             </div>
@@ -468,7 +543,8 @@ export default function LandingPage() {
           <div className="max-w-3xl mx-auto px-4 text-center">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">Pronto para transformar sua assessoria?</h2>
             <p className="text-muted-foreground mb-8">
-              Nossa equipe está no WhatsApp para auxiliar com configuração e dúvidas comerciais.
+              Nossa equipe está no WhatsApp ou em {CONTACT_EMAIL} para auxiliar com configuração e dúvidas
+              comerciais.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
@@ -481,7 +557,11 @@ export default function LandingPage() {
                 </Button>
               </a>
               <a href={APP_REGISTER_URL}>
-                <Button size="lg" iconRight={<ArrowRight className="w-4 h-4" />}>
+                <Button
+                  size="lg"
+                  iconRight={<ArrowRight className="w-4 h-4" />}
+                  className="bg-gradient-to-r from-primary to-accent border-0 hover:brightness-110"
+                >
                   Criar conta — {TRIAL_DAYS} dias grátis
                 </Button>
               </a>
@@ -492,6 +572,13 @@ export default function LandingPage() {
         <footer className="border-t border-border py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <Wordmark size="lg" className="max-w-[min(100%,280px)]" />
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              {CONTACT_EMAIL}
+            </a>
             <p className="text-xs text-muted-foreground">© 2026 AxxosFit. Todos os direitos reservados.</p>
           </div>
         </footer>
